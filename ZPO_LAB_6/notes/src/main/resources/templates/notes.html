@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Notatki</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container my-5">
+  <h2 class="mb-4">Dodaj notatkę</h2>
+  <form th:action="@{/add}" th:object="${note}" method="post" class="row g-3 align-items-center">
+    <div class="col-md-6">
+      <input type="text" th:field="*{content}" placeholder="Treść notatki" required class="form-control" />
+    </div>
+    <div class="col-md-3">
+      <select th:field="*{importance}" class="form-select" required>
+        <option value="" disabled selected>Wybierz ważność</option>
+        <option th:each="level : ${importanceLevels}" th:value="${level}" th:text="${level}"></option>
+      </select>
+    </div>
+    <div class="col-md-3 d-grid">
+      <button type="submit" class="btn btn-primary">Dodaj</button>
+    </div>
+  </form>
+
+  <h2 class="mt-5 mb-3">Lista notatek</h2>
+  <ul class="list-group">
+    <li class="list-group-item" th:each="note : ${notes}">
+      <strong th:text="${note.timestamp}"></strong> |
+      <span class="badge bg-secondary text-uppercase me-2" th:text="${note.importance}"></span>
+      <span th:text="${note.content}"></span>
+    </li>
+  </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
