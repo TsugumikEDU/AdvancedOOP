@@ -18,13 +18,18 @@ public class NoteController {
     public String listNotes(Model model) {
         model.addAttribute("note", new Note());
         model.addAttribute("notes", noteService.listOfNotes());
-        model.addAttribute("importanceLevels", Importance.values());
         return "notes";
     }
 
     @PostMapping("/add")
     public String addNote(@ModelAttribute Note note) {
         noteService.addNote(note);
+        return "redirect:/list";
+    }
+
+    @PostMapping("/remove")
+    public String removeNote(@ModelAttribute Note note) {
+        noteService.removeNote(note);
         return "redirect:/list";
     }
 }

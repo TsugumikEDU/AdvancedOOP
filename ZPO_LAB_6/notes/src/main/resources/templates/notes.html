@@ -14,8 +14,9 @@
     </div>
     <div class="col-md-3">
       <select th:field="*{importance}" class="form-select" required>
+
         <option value="" disabled selected>Wybierz ważność</option>
-        <option th:each="level : ${importanceLevels}" th:value="${level}" th:text="${level}"></option>
+        <option th:each="importance: ${T(com.blazejdrozd.notes.Importance).values()}" th:value="${importance}" th:text="${importance}"></option>
       </select>
     </div>
     <div class="col-md-3 d-grid">
@@ -29,6 +30,10 @@
       <strong th:text="${note.timestamp}"></strong> |
       <span class="badge bg-secondary text-uppercase me-2" th:text="${note.importance}"></span>
       <span th:text="${note.content}"></span>
+      <form th:action="@{/remove}" th:object="${note}" method="post">
+        <input type="hidden" name="id" th:value="${note.id}" />
+        <button type="submit" class="btn btn-primary">Usuń</button>
+      </form>
     </li>
   </ul>
 </div>
