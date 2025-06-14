@@ -7,25 +7,19 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 @Entity
 public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     private String content;
 
-    @Getter
-    @Setter
     @Enumerated(EnumType.STRING)
     private Importance importance;
 
-    @Getter
-    @Setter
     private LocalDateTime timestamp;
 
     @PrePersist
