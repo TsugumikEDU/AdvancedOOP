@@ -8,7 +8,6 @@ import com.blazejdrozd.restapi.repos.IStudentRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -38,12 +37,13 @@ public class StudentService {
         return studentRepo.findAll();
     }
 
-    public Optional<Student> getByAlbumNumber(Integer albumNumber) {
-        return studentRepo.findByAlbumNumber(albumNumber);
+    public Student getByAlbumNumber(Integer albumNumber) {
+        return studentRepo.findByAlbumNumber(albumNumber)
+                .orElseThrow(() -> new StudentRepoNotFoundException(albumNumber));
     }
 
     public Student updateStudent(Integer albumNumber, Student updatedStudent) {
-        Student student = getByAlbumNumber(albumNumber)
+        Student student = studentRepo.findByAlbumNumber(albumNumber)
                 .orElseThrow(() -> new StudentRepoNotFoundException(albumNumber));
 
         if (updatedStudent.getAlbumNumber() == null) {
@@ -63,13 +63,11 @@ public class StudentService {
     }
 
     public Student deleteStudentByAlbumNumber(Integer albumNumber) {
-        Optional<Student> student = getByAlbumNumber(albumNumber);
-
-        if (student.isEmpty()) {
-            throw new StudentRepoNotFoundException(albumNumber);
-        }
+        Student student = studentRepo.findByAlbumNumber(albumNumber)
+                .orElseThrow(() -> new StudentRepoNotFoundException(albumNumber));
 
         studentRepo.deleteByAlbumNumber(albumNumber);
-        return student.get();
+
+        return student;
     }
 }

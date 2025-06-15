@@ -24,7 +24,7 @@ public class StudentController {
 
     @GetMapping("/{albumNumber}")
     public ResponseEntity<Student> getStudentByAlbumNumber(@PathVariable Integer albumNumber) {
-        return ResponseEntity.ok(studentService.getByAlbumNumber(albumNumber).orElse(null));
+        return ResponseEntity.ok(studentService.getByAlbumNumber(albumNumber));
     }
 
     @PostMapping
